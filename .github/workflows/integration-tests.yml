@@ -1,0 +1,29 @@
+name: Integration Test (MySQL)
+on:
+  push:
+jobs:
+  integration:
+    services:
+      mysql:
+        image: mysql:8.0.29
+        env:
+          MYSQL_ROOT_PASSWORD: pass
+          MYSQL_DATABASE: dev
+        ports:
+          - "3306:3306"
+        options: >-
+          --health-cmd "mysqladmin ping -ppass"
+          --health-interval 10s
+          --health-start-period 10s
+          --health-timeout 5s
+          --health-retries 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.0.1
+      - name: Install Atlas
+        run: |
+          curl -sSf https://atlasgo.sh | sh 
+      - run: |
+          atlas migrate apply --dir file://migrations/ -u 'mysql://root:pass@localhost:3306/dev'
+      - run: |
+          echo "Run your tests here!"
