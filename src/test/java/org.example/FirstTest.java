@@ -18,7 +18,7 @@ public class FirstTest {
                 .assertThat()
                 .contentType(ContentType.JSON)
                 .body("places[0].'place name'", equalTo("Janpath")).and()
-                .body("places[0].'state'", equalTo("New Deli"));
+                .body("places[0].'state'", equalTo("New Delhi"));
     }
 
 }
