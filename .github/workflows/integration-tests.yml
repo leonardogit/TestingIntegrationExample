@@ -19,3 +19,10 @@ jobs:
           java-version: 1.8
       - name: Build with maven and run Test
         run: mvn test -B package --file pom.xml
+
+      - name: Test Report Generation
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: TestNG Report
+          path: target/surefire-reports/testng-results.xml
